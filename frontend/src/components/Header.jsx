@@ -1,3 +1,8 @@
+import { Link } from "react-router-dom";
+
+//About needs to be updated
+
+
 export default function Header () {
   return (
     <header>
@@ -5,13 +10,13 @@ export default function Header () {
       <nav>
         <ul>
           <li>
-            <a href="#"> Home</a>
+            <Link to='/'> Home</Link>
           </li>
           <li>
-            <a href="#"> List</a>
+            <Link to='/list'>List</Link>
           </li>
           <li>
-            <a href="#"> About</a>
+            <Link to='/'> About</Link> 
           </li>
         </ul>
       </nav>

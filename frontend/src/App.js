@@ -1,19 +1,28 @@
 import React from 'react';
-import { Counter } from './features/counter/Counter';
-import './App.css';
-import Header from './components/Header';
-import Hero from './components/Hero';
 
+import './App.css';
+import Home from './pages/Homepage';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import List from './pages/List';
 
 function App() {
   return (
-    <div className="App">
-      <Header/>
-      <div className='container'>
-        <Hero />
-        <img src='images\miniwindow.svg' alt='preview'/>
-      </div>
-    </div>
+    <>
+      <Router>
+        <div className='main-container'>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/login' element={<Login/>}/>
+            <Route path='/register' element={<Register/>}/>
+            <Route path='/list' element={<List/>}/>
+          </Routes>
+        </div>
+
+      </Router>
+      
+    </>
   );
 }
 
