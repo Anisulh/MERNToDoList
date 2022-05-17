@@ -1,39 +1,75 @@
-.App {
-  text-align: center;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&family=Major+Mono+Display&display=swap');
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App{
+  margin: 40px;
+  font-size: 18px;
+  overflow: hidden;
+  font-family: 'Cutive Mono', monospace;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-float infinite 3s ease-in-out;
-  }
-}
-
-.App-header {
-  min-height: 100vh;
+header{
+  font-family: 'Major Mono Display', monospace;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: space-between;
+  color: black;
+  font-size: 30px;
+  margin-bottom: 30px;
 }
 
-.App-link {
-  color: rgb(112, 76, 182);
+ul{
+  list-style-type: none;
+  display: flex;
 }
-
-@keyframes App-logo-float {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(10px);
-  }
-  100% {
-    transform: translateY(0px);
-  }
+a{
+  font-size: 20px;
+  text-decoration: none;
+  color: black;
+  margin: 0 10px;
+}
+.accounts{
+  display: flex;
+  text-align: center;
+  margin: 30% 5% 5% 0%;
+}
+.btn{
+  cursor: pointer;
+  margin:  10px 2% 0% 2%;
+  font-family: 'Cutive Mono', monospace;
+  background-color: rgb(255, 255, 255);
+  border-radius: 5px;
+  font-size: 15px;
+  letter-spacing: 1px;
+  padding: 0px 8px;
+  transition: color .3s;
+}
+.btn:hover{
+  color: rgb(255, 255, 255);
+  background-color: pink;
+}
+.container{
+  display: flex;
+  justify-content: space-between;
+  margin: 5% 1%;
+  padding: 3%;
+  height: 65vh;
+  background: #FFFFFF;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+}
+article{
+  padding: 20px;
+}
+h1{
+  font-size: 36px;
+}
+h2{
+  font-size: 18px;
+  margin-bottom: 50px;
+}
+h3{
+  font-size: 15pt;
+}
+p{
+  font-size: 14pt;
+}
+img{
+  margin: 60px 30px;
 }
