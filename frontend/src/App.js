@@ -1,5 +1,6 @@
 import React from 'react';
-
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
 import Home from './pages/Homepage';
 import Login from './pages/Login';
@@ -21,7 +22,7 @@ function App() {
         </div>
 
       </Router>
-      
+      <ToastContainer />
     </>
   );
 }
