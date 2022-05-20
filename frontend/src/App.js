@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
@@ -8,7 +8,9 @@ import Register from './pages/Register';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import List from './pages/List';
 
-function App() {
+
+function App(props) {
+
   return (
     <>
       <Router>
