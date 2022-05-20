@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import './App.css';
@@ -9,7 +9,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import List from './pages/List';
 
 
-function App(props) {
+function App() {
 
   return (
     <>
