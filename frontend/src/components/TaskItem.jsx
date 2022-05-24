@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 
 
-export default function TodoItem (props) {
+export default function TaskItem (props) {
   const [isEditing, setEditing] = useState(false);
   const [newName, setNewName] = useState('');
   function handleChange(e) {
@@ -14,8 +14,8 @@ export default function TodoItem (props) {
     setNewName("");
     setEditing(false);
   }
-  
-  const editingTemplate = (
+  //created two different views depending on if the user clicks the edit button
+  const editingView = (
     <form  onSubmit={handleSubmit}>
       <div>
         <label>
@@ -35,17 +35,20 @@ export default function TodoItem (props) {
       </div>
     </form>
   );
-  const viewTemplate = (
+  const regularView = (
     <div>
       <div >
           <input
             id={props.id}
             type="checkbox"
             defaultChecked={props.completed}
-            onChange={() => props.toggleTaskCompleted(props.id)}
+            onChange={() => props.toggleComplete(props.id)}
           />
           <label>
             {props.name}
+          </label>
+          <label>
+            {props.date}
           </label>
         </div>
         <div>
@@ -55,7 +58,7 @@ export default function TodoItem (props) {
           <button
             type="button"
             className="btn btn__danger"
-            onClick={() => props.deleteTask(props.id)}
+            onClick={() => props.delete(props.id)}
           >
             Delete <span >{props.name}</span>
           </button>
@@ -63,6 +66,6 @@ export default function TodoItem (props) {
     </div>
   );
   
-  return <li className="todo">{isEditing ? editingTemplate : viewTemplate}</li>;
+  return <li className="todo">{isEditing ? editingView : regularView}</li>;
 
 }
