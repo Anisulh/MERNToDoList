@@ -3,42 +3,26 @@ import Form from "../components/form"
 import Header from "../components/Header"
 import TaskItem from "../components/TaskItem"
 import { nanoid } from "nanoid";
-import FilterButton from "../components/Filter";
 const DATA = [] //data stores the tasks in an array
 
-const FILTER_MAP = {
-  All: () => true,
-  Active: task => !task.completed,
-  Completed: task => task.completed
-};
 
-const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 function List(props) {
  const [tasks, setTasks] = useState(DATA);
- const [filter, setFilter] = useState('All');
 
- 
-  const filterList = FILTER_NAMES.map(name => (
-    <FilterButton
-      key={name}
-      name={name}
-      isPressed={name === filter}
-      setFilter={setFilter}
-    />
-  ));
+
   //match the id of task that has its complete property changed to the array and invert the complete property
  function toggleComplete(id){
      const updatedTasks = tasks.map(task => {
        if (id === task.id){
-         return {...taskList, completed: !task.completed}
+         return {...task, completed: !task.completed}
        } 
        return task
    })
      setTasks(updatedTasks)
   }
   //for each task in the array, create a component in this page
-  const taskList = tasks.filter(FILTER_MAP[filter]).map(task => ( 
+  const taskList = tasks.map(task => ( 
     <TaskItem
       id={task.id}
       name={task.name}
@@ -53,8 +37,8 @@ function List(props) {
 
 //adding a task
 //name and date come from form.js
-  function addTask(name, date){
-    const newTask = {id:'task-'+nanoid(), name: name, date: date, completed: false}
+  function addTask(title, name, date){
+    const newTask = {id: title + nanoid(), name: name, date: date, completed: false}
     setTasks([...tasks, newTask])
   }
   //deleting task
@@ -73,7 +57,9 @@ function List(props) {
     })
     setTasks(editedTaskList)
   }
- 
+ function listTitle (title){
+   console.log(title)
+ }
 
   //tells how many tasks are remaining
   const taskNoun = taskList.length > 1 ? 'tasks' : 'task';
@@ -82,9 +68,8 @@ function List(props) {
   return(
         <div className="App">
           <Header/>
-          <Form addTask={addTask}/>
+          <Form addTask={addTask} addTitle= {listTitle}/>
           {taskLeft}
-          {filterList}
 
           <ul> 
             {taskList}

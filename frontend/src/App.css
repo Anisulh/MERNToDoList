@@ -111,3 +111,10 @@ input:focus::placeholder {
   margin-right: auto;
   margin-left: auto;
 }
+.todoTitle{
+  display: flex;
+  margin-right: 600px;
+}
+.title-delete{
+  cursor: pointer;
+}

@@ -16,7 +16,7 @@ export default function TaskItem (props) {
   }
   //created two different views depending on if the user clicks the edit button
   const editingView = (
-    <form  onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div>
         <label>
           New name for {props.name}
