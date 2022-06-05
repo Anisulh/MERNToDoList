@@ -9,7 +9,7 @@
 header{
   font-family: 'Major Mono Display', monospace;
   display: flex;
-  justify-content: space-between;
+
   color: black;
   font-size: 30px;
   margin-bottom: 30px;
