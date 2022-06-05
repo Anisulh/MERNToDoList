@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react"
 import { GrFormClose } from 'react-icons/gr';
 import { AiOutlineEnter } from 'react-icons/ai'
+import { toast } from "react-toastify";
 
 
 export default function Form (props) {
@@ -46,7 +47,7 @@ export default function Form (props) {
   }
   function handleTitleSubmit(e){
     e.preventDefault()
-    !title ? alert('Please give this list a name'): props.addTitle(title)
+    !title ? toast.error('Please give this list a name'): props.addTitle(title)
     setRead(true)
     setSubmit()
   }

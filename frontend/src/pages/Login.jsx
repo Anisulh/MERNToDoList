@@ -1,6 +1,8 @@
 import { useState } from "react"
 import Header from "../components/Header"
 import {toast} from 'react-toastify'
+import {useDispatch, useSelector} from 'react-redux'
+import {login} from '../features/auth/authSlice'
 function Login() {
 
   const [formData, setFormData] = useState({
@@ -8,6 +10,9 @@ function Login() {
     password: '',
   })
   const {email, password} = formData
+  const dispatch = useDispatch()
+  //allows you to bring in pieces from authslice into other pages
+  const {user, isLoading, isSuccess, message} = useSelector(state => state.auth)
   
   const onChange = (e) => {
     setFormData((prevFormData) => ({
@@ -18,7 +23,11 @@ function Login() {
 const onSubmit = (e) => {
   e.preventDefault()
   
-
+  const userData = {
+    email,
+    password
+  }
+  dispatch(login(userData))
 }
 
   return(
