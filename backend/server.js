@@ -21,8 +21,9 @@ app.get('/', (req, res) => {
   res.status(200).json({message: 'Welcome to the todo list API'})
 })
 
-
+//routes
 app.use('/api/users', require('./routes/userRoutes'))
+app.use('/api/list', require('./routes/listRoutes'))
 app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`))
