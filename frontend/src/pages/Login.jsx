@@ -1,8 +1,9 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Header from "../components/Header"
 import {toast} from 'react-toastify'
 import {useDispatch, useSelector} from 'react-redux'
-import {login} from '../features/auth/authSlice'
+import {login, reset} from '../features/auth/authSlice'
+import { useNavigate } from "react-router-dom"
 function Login() {
 
   const [formData, setFormData] = useState({
@@ -11,13 +12,27 @@ function Login() {
   })
   const {email, password} = formData
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   //allows you to bring in pieces from authslice into other pages
-  const {user, isLoading, isSuccess, message} = useSelector(state => state.auth)
+  const {user, isLoading, isError, isSuccess, message} = useSelector(state => state.auth)
+  useEffect(() => {
+    if (isError){
+      toast.error(message)
+    }
+    //redirect when logged in
+    if(isSuccess || user){
+      navigate('/')
+    }
+
+    dispatch(reset())
+
+  }, [isError, isSuccess, user, message, navigate, dispatch])
+
   
   const onChange = (e) => {
     setFormData((prevFormData) => ({
       ...prevFormData,
-      [e.target.name]: [e.target.value]
+      [e.target.name]: e.target.value
     }))
   }
 const onSubmit = (e) => {
