@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 //routes
 app.use('/api/users', require('./routes/userRoutes'))
-app.use('/api/list', require('./routes/listRoutes'))
+app.use('/api/lists', require('./routes/listRoutes'))
 app.use(errorHandler)
 
 app.listen(PORT, () => console.log(`Server has started on ${PORT}`))

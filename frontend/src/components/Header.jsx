@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import {logout, reset} from '../features/auth/authSlice'
@@ -10,6 +9,7 @@ export default function Header () {
   const navigate = useNavigate()
 
   const {user} = useSelector((state) => state.auth)
+
 
   const onLogout = () => {
     dispatch(logout())
@@ -26,7 +26,7 @@ export default function Header () {
             <Link to='/'> Home</Link>
           </li>
           <li>
-            <Link to='/list'>List</Link>
+            <Link to='/lists'>Create List</Link>
           </li>
           <li>
             <Link to='/'> About</Link> 

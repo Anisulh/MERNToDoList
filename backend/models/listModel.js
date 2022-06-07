@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 
 const listModel = mongoose.Schema({
-  list: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'User'
@@ -11,7 +11,7 @@ const listModel = mongoose.Schema({
     type: String,
     required: true,
   },
-  items: {
+  tasks: {
     type: Array,
   },
   listAdmin: {

@@ -9,6 +9,7 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 import List from './pages/List';
 
 
+
 function App() {
 
   return (
@@ -19,7 +20,7 @@ function App() {
             <Route path='/' element={<Home/>}/>
             <Route path='/login' element={<Login/>}/>
             <Route path='/register' element={<Register/>}/>
-            <Route path='/list' element={<List/>}/>
+            <Route path='/lists' element={<List/>}/>
           </Routes>
         </div>
 

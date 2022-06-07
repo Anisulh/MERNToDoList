@@ -7,7 +7,7 @@ const DATA = [] //data stores the tasks in an array
 
 
 
-function List(props) {
+function List() {
  const [tasks, setTasks] = useState(DATA);
 
 
