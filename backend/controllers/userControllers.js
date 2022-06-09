@@ -75,13 +75,7 @@ const loginUser = asyncHandler(async(req, res) => {
 // route: /api/users/me
 // private
 const getMe = asyncHandler(async(req, res) => {
-  const user ={
-    id: req.user._id,
-    email: req.user.email,
-    firstName: req.user.firstName,
-    lastName: req.user.lastName
-  }
-  res.status(200).json(user)
+  res.status(200).json(req.user)
 })
 
 

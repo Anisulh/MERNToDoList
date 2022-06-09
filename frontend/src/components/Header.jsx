@@ -17,6 +17,8 @@ export default function Header () {
     navigate('/')
   }
 
+  
+
   return (
     <header>
       <Link to='/' className="heading">ToDo List</Link>

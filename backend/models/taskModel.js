@@ -2,17 +2,17 @@ const mongoose = require('mongoose');
 
 
 const taskModel = mongoose.Schema({
-  listTitle: {
+  user: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'List'
+    ref: 'User'
   },
   name: {
     type: String,
     required: [true, 'Please enter a task']
   },
   date: {
-    type: Date,
+    type: String,
     required: [true, 'Please enter a date'],
   },
   completed: {

@@ -1,113 +1,95 @@
 const asyncHandler = require('express-async-handler');
 
 const User = require('../models/userModel');
-const List = require('../models/listModel');
 const Task = require('../models/taskModel');
 
-// desc: get user lists
-// route: GET /api/lists:id
+// desc: get tasks
+// route: GET /api/tasks
 // private
 const getTasks = asyncHandler(async(req, res) => {
-  //getting user using the id in JWT
-  const list = await List.findById(req.params.id)
-  if(!list){
-    res.status(401)
-    throw new Error('List not found')
-  }
 
   const tasks =  await Task.find({user: req.user.id})
   res.status(200).json(tasks)
 })
 
-
-
-// desc: create user list
+// desc: add tasks
 // route: POST  /api/list
 // private
-const createTask = asyncHandler(async(req, res) => {
-  const { name } = req.body
+const addTask = asyncHandler(async(req, res) => {
 
-  if (!name) {
+  if (!req.body.name) {
     res.status(400)
     throw new Error('Please add a task')
   }
 
-  // Get user using the id in the JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
-  }
-
-
   const task = await Task.create({
-    listTitle: req.params.id,
-    name,
-    date,
+    
+    user: req.user.id,
+    name: req.body.name,
+    date: req.body.date,
     completed: false
 
   })
   res.status(201).json(task)
 })
 
-// desc: delete  user list
-// route: DELETE /api/lists/:id
+// desc: delete  task
+// route: DELETE /api/task/:id
 // private
 const deleteTask = asyncHandler(async(req, res) => {
-  //getting user using the id in JWT
-  const user = await User.findById(req.user.id)
-  if(!user){
+ 
+  const task = await Task.findById(req.params.id)
+  if(!task){
     res.status(401)
-    throw new Error('User not found')
+    throw new Error('Task not found')
   }
 
-  const list =  await List.findById(req.params.id)
-  if (!list) {
+  
+  if (!req.user) {
     res.status(404)
-    throw new Error ('List not found')
+    throw new Error ('User not found')
   }
 
-  if(list.user.toString() !== req.user.id){
+  if(task.user.toString() !== req.user.id){
     res.status(401)
     throw new Error ('Not authorized')
   }
   await task.remove()
-  res.status(200).json({success : true})
+  res.status(200).json({id: req.params.id})
 })
 // desc: update user list
-// route: PUT /api/lists/:id
+// route: PUT /api/tasks/:id
 // private
 const updateTask = asyncHandler(async(req, res) => {
-  //getting user using the id in JWT
-  const user = await User.findById(req.user.id)
-  if(!user){
+  const task = await Task.findById(req.params.id)
+
+  if (!task) {
+    res.status(400)
+    throw new Error('Task not found')
+  }
+
+  // Check for user
+  if (!req.user) {
     res.status(401)
     throw new Error('User not found')
   }
 
-  const list =  await List.findById(req.params.id)
-  if (!list) {
-    res.status(404)
-    throw new Error ('List not found')
-  }
-
-  if(list.user.toString() !== req.user.id){
+  // Make sure the logged in user matches the goal user
+  if (task.user.toString() !== req.user.id) {
     res.status(401)
-    throw new Error ('Not authorized')
+    throw new Error('User not authorized')
   }
 
-  const updatedTask = await List.findByIdAndUpdate(
-    req.params.id, 
-    req.body, 
-    {new:true}
-    )
+  const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  })
+
   res.status(200).json(updatedTask)
 })
 
 module.exports ={
   getTasks,
-  createTask,
+  addTask,
   deleteTask,
   updateTask
 }
