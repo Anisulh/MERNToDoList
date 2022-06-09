@@ -80,7 +80,7 @@ const updateTask = asyncHandler(async(req, res) => {
     throw new Error('User not authorized')
   }
 
-  const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+  const updatedTask = await Task.findByIdAndUpdate(task, req.body, {
     new: true,
   })
 

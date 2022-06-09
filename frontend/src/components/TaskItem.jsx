@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { deleteTask, updateTask } from "../features/task/taskSlice";
+
 
 
 
 export default function TaskItem (props) {
   const [isEditing, setEditing] = useState(false);
-  const [newName, setNewName] = useState('');
-  function handleChange(e) {
-    setNewName(e.target.value);  
-  }
+  const [name, setName] = useState(props.name);
+  const dispatch = useDispatch()
+  
   function handleSubmit(e) {
     e.preventDefault();
-    props.edit(props.id, newName);
-    setNewName("");
+    dispatch(updateTask({id: props.id, name}))
+    setName("");
     setEditing(false);
   }
   //created two different views depending on if the user clicks the edit button
@@ -21,7 +23,7 @@ export default function TaskItem (props) {
         <label>
           New name for {props.name}
         </label>
-        <input id={props.id}  type="text" value={newName} onChange={handleChange}/>
+        <input id={props.id}  type="text" value={name} onChange= {e => setName(e.target.value)}/>
       </div>
       <div >
         <button type="button" className="btn" onClick={() => setEditing(false)}>
@@ -58,14 +60,15 @@ export default function TaskItem (props) {
           <button
             type="button"
             className="btn btn__danger"
-            onClick={() => props.delete(props.id)}
+            onClick={() => dispatch(deleteTask(props.id))}
           >
             Delete <span >{props.name}</span>
           </button>
         </div>
     </div>
+    
   );
   
-  return <li className="todo">{isEditing ? editingView : regularView}</li>;
+  return (<li className="todo">{isEditing ? editingView : regularView}</li>);
 
 }
