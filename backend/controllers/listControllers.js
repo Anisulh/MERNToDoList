@@ -47,28 +47,19 @@ const getList = asyncHandler(async(req, res) => {
 // route: POST  /api/list
 // private
 const createList = asyncHandler(async(req, res) => {
-  const { name } = req.body
+  
 
-  if (!name) {
+  if (!req.body.name) {
     res.status(400)
-    throw new Error('Please add a product and description')
-  }
-
-  // Get user using the id in the JWT
-  const user = await User.findById(req.user.id)
-
-  if (!user) {
-    res.status(401)
-    throw new Error('User not found')
+    throw new Error('Please add a list')
   }
 
 
   const list = await List.create({
     user: req.user.id,
-    name,
+    name: req.body.name,
     tasks: req.body.tasks,
     listAdmin: req.body.listAdmin
-
   })
   res.status(201).json(list)
 })
@@ -78,8 +69,8 @@ const createList = asyncHandler(async(req, res) => {
 // private
 const deleteList = asyncHandler(async(req, res) => {
   //getting user using the id in JWT
-  const user = await User.findById(req.user.id)
-  if(!user){
+  
+  if(!req.user){
     res.status(401)
     throw new Error('User not found')
   }
@@ -95,15 +86,15 @@ const deleteList = asyncHandler(async(req, res) => {
     throw new Error ('Not authorized')
   }
   await list.remove()
-  res.status(200).json({success : true})
+  res.status(200).json({id: req.params.id})
 })
 // desc: update user list
 // route: PUT /api/lists/:id
 // private
 const updateList = asyncHandler(async(req, res) => {
   //getting user using the id in JWT
-  const user = await User.findById(req.user.id)
-  if(!user){
+  
+  if(!req.user){
     res.status(401)
     throw new Error('User not found')
   }
@@ -119,11 +110,9 @@ const updateList = asyncHandler(async(req, res) => {
     throw new Error ('Not authorized')
   }
 
-  const updatedList = await List.findByIdAndUpdate(
-    req.params.id, 
-    req.body, 
-    {new:true}
-    )
+  const updatedList = await List.findByIdAndUpdate(list, req.body, {
+    new:true
+  })
   res.status(200).json(updatedList)
 })
 

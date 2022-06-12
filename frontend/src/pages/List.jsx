@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {getTasks, reset} from '../features/task/taskSlice'
 import TaskItem from '../components/TaskItem'
+import {DndProvider} from 'react-dnd'
+import {HTML5Backend} from 'react-dnd-html5-backend'
+import SidebarList from "../components/SidebarList";
 
 function List() {
   const navigate = useNavigate()
@@ -37,23 +40,28 @@ const taskList = tasks.map((task) => (
     completed={task.completed}
     //toggleComplete={toggleComplete}
     
-    //edit={editTask}
   />
 
 ));
 
 
-  return (
-    <div className="App">
-      <Header />
-      <Form  />
-      {tasks.length > 0 ? (
-      <ul>
-        {taskList} 
-      </ul>) : (<h3> You do not have any tasks</h3>)}
-      
 
-    </div>
+  return (
+    <DndProvider backend= {HTML5Backend}>
+      <div className="App">
+      <Header />
+      <div className="list-page-body">
+        <SidebarList/>
+        <Form  />
+        {tasks.length > 0 ? (
+        <ul>
+          {taskList} 
+        </ul>) : (<h3> You do not have any tasks</h3>)}
+      </div>
+      
+      </div>
+    </DndProvider>
+    
   );
 }
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, updateTask } from "../features/task/taskSlice";
+import { useDrag } from "react-dnd";
 
 
 
@@ -9,7 +10,13 @@ export default function TaskItem (props) {
   const [isEditing, setEditing] = useState(false);
   const [name, setName] = useState(props.name);
   const dispatch = useDispatch()
-  
+  const [{isDragging}, drag] = useDrag(() =>({
+    type: 'task',
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging()
+    })
+  }))
+
   function handleSubmit(e) {
     e.preventDefault();
     dispatch(updateTask({id: props.id, name}))
@@ -38,8 +45,8 @@ export default function TaskItem (props) {
     </form>
   );
   const regularView = (
-    <div>
-      <div >
+    <div className="task-item" ref={drag} >
+      <div>
           <input
             id={props.id}
             type="checkbox"
@@ -65,10 +72,11 @@ export default function TaskItem (props) {
             Delete <span >{props.name}</span>
           </button>
         </div>
+        {isDragging}
     </div>
     
   );
   
-  return (<li className="todo">{isEditing ? editingView : regularView}</li>);
+  return (<li className="todo" >{isEditing ? editingView : regularView}  </li>);
 
 }
