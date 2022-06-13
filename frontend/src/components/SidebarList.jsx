@@ -1,16 +1,23 @@
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Listform from './Listform';
-import { getLists, reset } from '../features/lists/listSlice';
+import { getLists, listReset } from '../features/lists/listSlice';
 import ListItem from './ListItem';
+import { useDrop } from 'react-dnd';
 
 export default function SidebarList (){
-  
+  const [basket, setBasket] = useState([])
   const dispatch = useDispatch()
-
   const{lists, isError, message}= useSelector((state)=> state.lists)
-
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'task',
+    drop: (item) => setBasket((basket) => 
+                        !basket.includes(item) ? [...basket, item] : basket),
+    collect: (monitor) => ({
+        isOver: !!monitor.isOver()
+    })
+})
   useEffect(() => {
     if (isError) {
       console.log(message);
@@ -21,7 +28,7 @@ export default function SidebarList (){
   useEffect(() => {
     dispatch(getLists());
 
-    return () => dispatch(reset());
+    return () => dispatch(listReset());
   }, [dispatch]);
 
   //for each task in the array, create a component in this page

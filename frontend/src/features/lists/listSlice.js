@@ -59,7 +59,7 @@ export const listSlice = createSlice({
   name: "list",
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    listReset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -116,5 +116,5 @@ export const listSlice = createSlice({
   },
 });
 
-export const { reset } = listSlice.actions;
+export const { listReset } = listSlice.actions;
 export default listSlice.reducer;
