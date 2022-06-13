@@ -8,7 +8,7 @@ import taskReducer from '../features/task/taskSlice'
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    list: listReducer,
+    lists: listReducer,
     tasks: taskReducer,
   },
 });

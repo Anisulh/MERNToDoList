@@ -44,7 +44,7 @@ const getList = asyncHandler(async(req, res) => {
 
 
 // desc: create user list
-// route: POST  /api/list
+// route: POST  /api/lists
 // private
 const createList = asyncHandler(async(req, res) => {
   
@@ -59,7 +59,7 @@ const createList = asyncHandler(async(req, res) => {
     user: req.user.id,
     name: req.body.name,
     tasks: req.body.tasks,
-    listAdmin: req.body.listAdmin
+    listAdmin: true
   })
   res.status(201).json(list)
 })

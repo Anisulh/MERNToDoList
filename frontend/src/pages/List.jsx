@@ -52,11 +52,14 @@ const taskList = tasks.map((task) => (
       <Header />
       <div className="list-page-body">
         <SidebarList/>
-        <Form  />
-        {tasks.length > 0 ? (
-        <ul>
-          {taskList} 
-        </ul>) : (<h3> You do not have any tasks</h3>)}
+        <div className="list-area">
+          <Form  />
+          {tasks.length > 0 ? (
+          <ul>
+            {taskList} 
+          </ul>) : (<h3> You do not have any tasks</h3>)}
+        </div>
+        
       </div>
       
       </div>

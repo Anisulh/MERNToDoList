@@ -118,3 +118,24 @@ input:focus::placeholder {
 .title-delete{
   cursor: pointer;
 }
+
+.list-page-body{
+  display: flex;
+}
+.sidebar{
+  width: 400px;
+  
+  height: 80vh;
+}
+.sortButtons{
+  height: 20%;
+  border: 1px solid black;
+}
+.sortButtons button{
+  display: block;
+  margin-bottom: 10px;
+}
+.list-section{
+  height: 75%;
+  border: 1px solid black;
+}
