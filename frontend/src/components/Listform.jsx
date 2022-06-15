@@ -2,7 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import {createList} from '../features/lists/listSlice'
-
+import {MdPostAdd} from 'react-icons/md'
 export default function Listform() {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
@@ -17,20 +17,19 @@ export default function Listform() {
   return (
     <>
      
-      <form onSubmit={handleSubmit} className="todoContainer">
-        <div className="task">
-    
+      <form onSubmit={handleSubmit} className="listContainer">
+        <div className="list-input list-input-with-button">
           <input
             type="text"
-            name="todo"
-            placeholder="Add a task"
+            name="list"
+            placeholder="Add a list"
             value={name}
             onChange={(e) => {
               setName(e.target.value);
             }}
           />
-          <button type="submit" className="btn">
-            Create List
+          <button type="submit">
+            <MdPostAdd/>
           </button>
         </div>
       </form>

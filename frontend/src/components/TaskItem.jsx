@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, updateTask } from "../features/task/taskSlice";
-import { useDrag } from "react-dnd";
+
 import {FiEdit, FiTrash2, FiSave} from "react-icons/fi"
 import {ImCancelCircle} from "react-icons/im"
+import {MdOutlineDragIndicator} from 'react-icons/md'
 
 
 
@@ -12,12 +13,8 @@ export default function TaskItem (props) {
   const [isEditing, setEditing] = useState(false);
   const [name, setName] = useState(props.name);
   const dispatch = useDispatch()
-  const [{isDragging}, drag] = useDrag(() =>({
-    type: 'task',
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging()
-    })
-  }))
+ 
+  
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -46,36 +43,39 @@ export default function TaskItem (props) {
     </form>
   );
   const regularView = (
-    <div className="task-item" ref={drag} >
-      <div>
-          <input
-            id={props.id}
-            type="checkbox"
-            defaultChecked={props.completed}
-            onChange={() => props.toggleComplete(props.id)}
-          />
-          <label>
-            {props.name}
-          </label>
-          <label>
-            {props.date}
-          </label>
-        </div>
+    <div className="task-item">
+      <button className="hover-button btn"><MdOutlineDragIndicator/></button>
+      <div className="task-area" >
         <div>
-          <button type="button" className="btn" onClick={() => setEditing(true)}>
-            <FiEdit/> 
-          </button>
-          <button
-            type="button"
-            className="btn btn__danger"
-            onClick={() => dispatch(deleteTask(props.id))}
-          >
-            <FiTrash2/> 
-          </button>
-        </div>
-        {isDragging}
+            {/* <input
+              id={props.id}
+              type="checkbox"
+              defaultChecked={props.completed}
+              onChange={() => props.toggleComplete(props.id)}
+            /> */}
+            <div className="task-top-section">
+            <label>
+              {props.name}
+            </label>
+            <button
+              type="button"
+              className="btn btn__danger"
+              onClick={() => dispatch(deleteTask(props.id))}
+            >
+              <FiTrash2/> 
+            </button>
+            </div>
+            <div className="task-bottom-section">
+              <label>
+                {props.date}
+              </label>
+              <button type="button" className="btn" onClick={() => setEditing(true)}>
+                <FiEdit/> 
+              </button>
+            </div>
+          </div>
+      </div>
     </div>
-    
   );
   
   return (<li className="todo" >{isEditing ? editingView : regularView}  </li>);

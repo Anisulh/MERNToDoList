@@ -5,12 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {getTasks, reset} from '../features/task/taskSlice'
 import TaskItem from '../components/TaskItem'
-import {DndProvider, useDrop} from 'react-dnd'
-import {HTML5Backend} from 'react-dnd-html5-backend'
-import { useState } from "react";
 import { getLists, listReset } from "../features/lists/listSlice";
 import ListItem from "../components/ListItem";
 import Listform from "../components/Listform";
+import { MdToday, MdLocalFireDepartment, MdOutlineUpcoming }from 'react-icons/md'
 
 function List() {
   const navigate = useNavigate()
@@ -48,17 +46,9 @@ const taskList = tasks.map((task) => (
 
 ));
 
-const [basket, setBasket] = useState([])
+
 const{lists}= useSelector((state)=> state.lists)
-const [{isOver}, drop] = useDrop(() =>({
-  accept: 'task',
-  type: 'task',
-  drop: (item) => setBasket((basket) => 
-                            !basket.includes(item) ? [...basket, item] : basket),
-  collect: (monitor) => ({
-    isOver: monitor.isOver()
-  })
-}))
+
 useEffect(() => {
   dispatch(getLists());
 
@@ -76,7 +66,6 @@ const list = lists.map((list) => (
 
 ));
 
-
   return (
 
       <div className="App">
@@ -84,31 +73,21 @@ const list = lists.map((list) => (
       <div className="list-page-body">
         <div className="sidebar">
           <div className='sortButtons'>
-            <button>Today</button>
-            <button>This Week</button>
-            <button>This Month</button>
+            <button className="btn"><MdToday/> Today</button>
+            <button className="btn"><MdLocalFireDepartment/> Priority</button>
+            <button className="btn"><MdOutlineUpcoming/> Upcoming</button>
         </div>
-        <div className='list-section' ref={drop}>
+        <div className='list-section' >
           <p> Lists</p>
           <Listform/>
           {lists.length > 0 ? (
             <ul>
               {list} 
-            </ul>) : (<h3> Please create a list</h3>)}
-            {basket.map(task => (
-              <TaskItem
-                draggable
-                key={task._id}
-                id={task._id}
-                name={task.name}
-                date={task.date}
-        
-              />))}
-            {isOver}
+            </ul>) : null}
         </div>
         
         </div>
-        <div className="list-area">
+        <div className="task-input-area">
           <Form  />
           {tasks.length > 0 ? (
           <ul>

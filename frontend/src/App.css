@@ -9,13 +9,19 @@
 header{
   font-family: 'Major Mono Display', monospace;
   display: flex;
-
+  justify-content: space-between;
+  align-items: center;
   color: black;
   font-size: 30px;
-  margin-bottom: 30px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  margin-right: 40px;
+}
+.heading{
+  font-size: 35px
 }
 
-ul{
+ header ul{
   list-style-type: none;
   display: flex;
 }
@@ -23,7 +29,13 @@ a{
   font-size: 20px;
   text-decoration: none;
   color: black;
-  margin: 0 10px;
+  margin: 0 15px;
+}
+header .btn{
+  border-radius: 15px;
+  padding: 10px;
+  border: 1px solid black;
+  margin-top: 0px;
 }
 .accounts{
   display: flex;
@@ -75,14 +87,49 @@ p{
 img{
   margin: 60px 30px;
 }
-
+.todoContainer input{
+  margin-left: 45%;
+}
+.input-with-button {
+  position: relative;
+}
+.list-input-with-button {
+  position: relative;
+}
+.input-with-button button {
+  position: absolute;
+  right: -280px;
+  top : -10px;
+  padding: 0;
+  border: none;
+  font-size: 20px;
+  background-color: rgba(255, 255, 255, 0);
+}
+.list-input-with-button button {
+  position: absolute;
+  left: 320px;
+  top : 0px;
+  padding: 0;
+  border: none;
+  font-size: 20px;
+  background-color: rgba(255, 255, 255, 0);
+  cursor: pointer;
+  width: 30px;
+}
+.task-input-area .listContainer button{
+  left: 425px;
+}
+.list-input-with-button button:hover{
+  color: rgb(255, 255, 255);
+  background-color: pink;
+}
 input{
   font-family: 'Cutive Mono', monospace;
   font-size: large;
   border: 0px;
   border-bottom: 2px black solid;
   display: block;
-  width: 350px;
+  width: 600px;
   margin-left: auto;
   margin-right: auto;
   margin-top: 50px;
@@ -124,18 +171,97 @@ input:focus::placeholder {
 }
 .sidebar{
   width: 400px;
-  
   height: 80vh;
 }
 .sortButtons{
-  height: 20%;
-  border: 1px solid black;
+  padding: 30px;
 }
 .sortButtons button{
   display: block;
   margin-bottom: 10px;
+  border: none;
+  border-radius: 10px;
+  width: 300px;
+  margin-left: 18px;
+  font-size: 18px;
+  font-family: inherit;
+  text-align: left;
+  padding: 10px;
+  background-color: #D9D9D9;
 }
 .list-section{
   height: 75%;
-  border: 1px solid black;
+  border-right: 1px solid black;
 }
+.list-section p{
+  font-size: 24px;
+  margin-bottom: -20px;
+}
+.listContainer input{
+  width: 300px;
+}
+.listContainer button{
+  right: 45px;
+}
+.task-item{
+  margin-left: 40%;
+  margin-right: -800px;
+  display: flex;
+}
+.list-item{
+  width: 565px;
+}
+.task-area, .list-area{
+  background-color: #D9D9D9;
+  border-radius: 10px;
+  margin: 10px;
+  text-align: center;
+  list-style-type: none;
+  display: inline-block;
+  width: 50%;
+}
+ul{
+  list-style-type: none;
+}
+
+.task-top-section button, .task-bottom-section button,.list-top-section button, .menu-button, .hover-button{
+  padding: 1px;
+  border: none;
+  background-color: #D9D9D9;
+  margin-right: -5px;
+}
+.task-top-section {
+  margin-bottom: -7px;
+}
+.task-bottom-section {
+  margin-bottom: 3px;
+}
+.task-bottom-section label{
+  font-size: 14px;
+}
+.task-top-section label, .list-section-area label{
+  font-size: 18px;
+  margin-top: 3px;
+}
+
+.task-top-section, .task-bottom-section, .list-section-area {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 25px;
+  margin-right: 30px;
+  align-items: center;
+  
+}
+.hover-button{
+  margin-bottom: 10px;
+  margin-top: 11px;
+  margin-right: -10px;
+  background-color: white;
+}
+.drop-down-button{
+  font-size: 20px;
+  padding: 0;
+  margin-right: -10px;
+  border: none;
+}
+
