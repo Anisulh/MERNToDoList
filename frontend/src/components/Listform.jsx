@@ -1,16 +1,25 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {createList} from '../features/lists/listSlice'
 import {MdPostAdd} from 'react-icons/md'
+
 export default function Listform() {
   const [name, setName] = useState("");
   const dispatch = useDispatch();
-
+  const{lists}= useSelector((state)=> state.lists)
+  const duplicateList =(lists.some(list => list.name === name))
   function handleSubmit(e) {
     e.preventDefault();
-    !name ? toast.error("Please fill out all the fields"): dispatch(createList({ name }));
+    if (!name) {
+      toast.error("Please fill out all the fields")
+    } else if (!duplicateList) {
+      dispatch(createList({ name }))
+    }
+
+    
     setName("");
+    
   }
   
 
