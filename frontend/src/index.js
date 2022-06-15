@@ -5,19 +5,21 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-
+import {DragDropContext} from 'react-beautiful-dnd'
 
 const container = document.getElementById('root');
 const root = createRoot(container);
+function onDragEnd(){
 
+}
 root.render(
   <React.StrictMode>
-    
+    <DragDropContext onDragEnd={onDragEnd}>
       <Provider store={store}>
         <App />
       </Provider>
     
-    
+    </DragDropContext>
   </React.StrictMode>
 );
 

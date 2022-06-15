@@ -17,7 +17,7 @@ export default function Listform() {
       dispatch(createList({ name }))
     }
 
-    
+
     setName("");
     
   }

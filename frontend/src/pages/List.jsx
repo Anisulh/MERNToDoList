@@ -9,6 +9,7 @@ import { getLists, listReset } from "../features/lists/listSlice";
 import ListItem from "../components/ListItem";
 import Listform from "../components/Listform";
 import { MdToday, MdLocalFireDepartment, MdOutlineUpcoming }from 'react-icons/md'
+import { Droppable } from "react-beautiful-dnd";
 
 function List() {
   const navigate = useNavigate()
@@ -32,19 +33,10 @@ function List() {
   }, [dispatch]);
 
   //for each task in the array, create a component in this page
-const taskList = tasks.map((task) => (
-  <TaskItem
-    draggable
-    key={task._id}
-    id={task._id}
-    name={task.name}
-    date={task.date}
-    completed={task.completed}
-    //toggleComplete={toggleComplete}
-    
-  />
 
-));
+
+
+
 
 
 const{lists}= useSelector((state)=> state.lists)
@@ -56,15 +48,7 @@ useEffect(() => {
 }, [dispatch]);
 
 //for each task in the array, create a component in this page
-const list = lists.map((list) => (
-<ListItem
-  key={list._id}
-  id={list._id}
-  name={list.name}
 
-/>
-
-));
 
   return (
 
@@ -81,9 +65,17 @@ const list = lists.map((list) => (
           <p> Lists</p>
           <Listform/>
           {lists.length > 0 ? (
-            <ul>
-              {list} 
-            </ul>) : null}
+              <ul>
+                {lists.map((list) => (
+                        <ListItem
+                          key={list._id}
+                          id={list._id}
+                          name={list.name}
+                        >
+                        </ListItem>
+                ))}
+              </ul>
+            ) : null}
         </div>
         
         </div>
@@ -91,7 +83,26 @@ const list = lists.map((list) => (
           <Form  />
           {tasks.length > 0 ? (
           <ul>
-            {taskList} 
+            <Droppable droppableId='0'>
+              {(provided) => (
+                <div 
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}> 
+                    {tasks.map((task, index) => (
+            
+                      <TaskItem
+                        index={index}
+                        key={task._id}
+                        id={task._id}
+                        name={task.name}
+                        date={task.date}
+                        completed={task.completed}
+                      />
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )} 
+            </Droppable>
           </ul>) : (<h3> You do not have any tasks</h3>)}
         </div>
         
