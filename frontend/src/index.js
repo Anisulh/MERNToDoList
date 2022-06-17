@@ -1,25 +1,25 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Provider } from 'react-redux';
+import { Provider, useSelector } from 'react-redux';
 import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import {DragDropContext} from 'react-beautiful-dnd'
+
+
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-function onDragEnd(){
 
-}
+
 root.render(
   <React.StrictMode>
-    <DragDropContext onDragEnd={onDragEnd}>
+    
       <Provider store={store}>
         <App />
       </Provider>
     
-    </DragDropContext>
+    
   </React.StrictMode>
 );
 

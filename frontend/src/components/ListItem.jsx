@@ -8,6 +8,8 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import { useDrag, useDrop } from 'react-dnd'
+import { useRef } from "react";
 
 
 export default function ListItem (props) {
@@ -16,6 +18,7 @@ export default function ListItem (props) {
   const dispatch = useDispatch()
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
+  const {id, index, moveList} = props
   function handleClick (event) {
     setAnchorEl(event.currentTarget);
   };
@@ -32,8 +35,69 @@ export default function ListItem (props) {
     setName("");
     setEditing(false);
   }
+  const ref = useRef(null)
+  const [{ handlerId }, drop] = useDrop({
+    accept: 'list',
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    hover(item, monitor) {
+      if (!ref.current) {
+        return
+      }
+      const dragIndex = item.index
+      const hoverIndex = index
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return
+      }
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      // Get vertical middle
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset()
+      // Get pixels to the top
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return
+      }
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return
+      }
+      // Time to actually perform the action
+      moveList(dragIndex, hoverIndex)
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex
+    },
+  })
+
+
+
+
+  const [{ isDragging }, drag] = useDrag({
+    type: 'list',
+    item: () => {
+      return { id, index }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  })
   
-  
+  drag(drop(ref))
+  const opacity = isDragging ? 0 : 1
   //created two different views depending on if the user clicks the edit button
   const editingView = (
     <form onSubmit={handleSubmit}>
@@ -134,6 +198,6 @@ export default function ListItem (props) {
     
   );
   
-  return (<li className="todo" >{isEditing ? editingView : regularView}  </li>);
+  return (<li className="todo" style={{ opacity }} ref={ref} data-handler-id={handlerId} >{isEditing ? editingView : regularView}  </li>);
 
 }

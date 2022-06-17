@@ -1,20 +1,83 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { deleteTask, updateTask } from "../features/task/taskSlice";
-import { Draggable } from "react-beautiful-dnd";
+import { useDrag, useDrop } from 'react-dnd'
 import {FiEdit, FiTrash2, FiSave} from "react-icons/fi"
 import {ImCancelCircle} from "react-icons/im"
 import {MdOutlineDragIndicator} from 'react-icons/md'
+import { useRef } from 'react'
 
 
 
 
 export default function TaskItem (props) {
+
+  const {id, index, moveTask} = props
   const [isEditing, setEditing] = useState(false);
   const [name, setName] = useState(props.name);
   const dispatch = useDispatch()
- 
+  const ref = useRef(null)
+  const [{ handlerId }, drop] = useDrop({
+    accept: 'task',
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    hover(item, monitor) {
+      if (!ref.current) {
+        return
+      }
+      const dragIndex = item.index
+      const hoverIndex = index
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return
+      }
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect()
+      // Get vertical middle
+      const hoverMiddleY =
+        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset()
+      // Get pixels to the top
+      const hoverClientY = clientOffset.y - hoverBoundingRect.top
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return
+      }
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return
+      }
+      // Time to actually perform the action
+      moveTask(dragIndex, hoverIndex)
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex
+    },
+  })
+
+
+
+
+  const [{ isDragging }, drag] = useDrag({
+    type: 'task',
+    item: () => {
+      return { id, index }
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  })
   
+  drag(drop(ref))
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -22,6 +85,7 @@ export default function TaskItem (props) {
     setName("");
     setEditing(false);
   }
+  const opacity = isDragging ? 0 : 1
   //created two different views depending on if the user clicks the edit button
   const editingView = (
     <form onSubmit={handleSubmit}>
@@ -80,18 +144,11 @@ export default function TaskItem (props) {
   
   
 return (
-    <Draggable draggableId={props.id} index={props.index}>
-      {(provided) =>(
-        <li 
-          className="todo" 
-          {...provided.draggableProps}
-          {...provided.dragHandleProps}
-          ref={provided.innerRef}
-        >
+      
+        <li className="todo" style={{ opacity }} ref={ref} data-handler-id={handlerId}>
           {isEditing ? editingView : regularView}  
         </li>
-      )}
-    </Draggable>
+      
 
   );
 

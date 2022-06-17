@@ -1,22 +1,26 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Form from "../components/form";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {getTasks, reset} from '../features/task/taskSlice'
+import {getTasks, reset, updateTask} from '../features/task/taskSlice'
 import TaskItem from '../components/TaskItem'
 import { getLists, listReset } from "../features/lists/listSlice";
 import ListItem from "../components/ListItem";
 import Listform from "../components/Listform";
 import { MdToday, MdLocalFireDepartment, MdOutlineUpcoming }from 'react-icons/md'
-import { Droppable } from "react-beautiful-dnd";
+
+import update from 'immutability-helper'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
+
 
 function List() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state.auth)
   const{tasks, isError, message}= useSelector((state)=> state.tasks)
-
+  const{lists}= useSelector((state)=> state.lists)
   useEffect(() => {
     if (isError) {
       console.log(message);
@@ -39,7 +43,7 @@ function List() {
 
 
 
-const{lists}= useSelector((state)=> state.lists)
+
 
 useEffect(() => {
   dispatch(getLists());
@@ -48,10 +52,63 @@ useEffect(() => {
 }, [dispatch]);
 
 //for each task in the array, create a component in this page
+const [order, setOrder] = useState(tasks)
+const [listOrder, setListOrder] = useState(lists)
 
+useEffect(() =>{
+  setOrder(tasks)
+  setListOrder(lists)
+}, [tasks, lists ])
+
+
+const moveTask = useCallback((dragIndex, hoverIndex) => {
+  setOrder((prevOrder) =>
+    update(prevOrder, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, prevOrder[dragIndex]],
+      ],
+    }),
+  )
+}, [])
+const moveList = useCallback((dragIndex, hoverIndex) => {
+  setListOrder((prevListOrder) =>
+    update(prevListOrder, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, prevListOrder[dragIndex]],
+      ],
+    }),
+  )
+}, [])
+const renderTask = useCallback((task, index) => {
+  return (
+    <TaskItem
+      index={index}
+      key={task._id}
+      id={task._id}
+      name={task.name}
+      date={task.date}
+      completed={task.completed}
+      moveTask = {moveTask}
+    />
+  )
+}, [moveTask])
+const renderList = useCallback((list, index) => {
+  return (
+    <ListItem
+      index={index}
+      key={list._id}
+      id={list._id}
+      name={list.name}
+      moveList={moveList}
+    >
+    </ListItem>
+)
+}, [moveList])
 
   return (
-
+    <DndProvider backend={HTML5Backend}>
       <div className="App">
       <Header />
       <div className="list-page-body">
@@ -66,14 +123,7 @@ useEffect(() => {
           <Listform/>
           {lists.length > 0 ? (
               <ul>
-                {lists.map((list) => (
-                        <ListItem
-                          key={list._id}
-                          id={list._id}
-                          name={list.name}
-                        >
-                        </ListItem>
-                ))}
+                {listOrder.map((list, i) => renderList(list, i))}
               </ul>
             ) : null}
         </div>
@@ -83,32 +133,15 @@ useEffect(() => {
           <Form  />
           {tasks.length > 0 ? (
           <ul>
-            <Droppable droppableId='0'>
-              {(provided) => (
-                <div 
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}> 
-                    {tasks.map((task, index) => (
-            
-                      <TaskItem
-                        index={index}
-                        key={task._id}
-                        id={task._id}
-                        name={task.name}
-                        date={task.date}
-                        completed={task.completed}
-                      />
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )} 
-            </Droppable>
+            {order.map((task, i) => renderTask(task, i))}
           </ul>) : (<h3> You do not have any tasks</h3>)}
         </div>
         
       </div>
       
       </div>
+    </DndProvider>
+      
   
     
   );
