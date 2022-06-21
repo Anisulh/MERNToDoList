@@ -6,17 +6,50 @@ import {FiEdit, FiTrash2, FiSave} from "react-icons/fi"
 import {ImCancelCircle} from "react-icons/im"
 import {MdOutlineDragIndicator} from 'react-icons/md'
 import { useRef } from 'react'
-
-
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import IconButton from '@mui/material/Button';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { MdToday, MdLocalFireDepartment}from 'react-icons/md'
 
 
 export default function TaskItem (props) {
 
   const {id, index, moveTask} = props
   const [isEditing, setEditing] = useState(false);
+  const [priority, setPriority]=useState(props.priority)
   const [name, setName] = useState(props.name);
   const dispatch = useDispatch()
   const ref = useRef(null)
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  function handleClick (event) {
+    setAnchorEl(event.currentTarget);
+  };
+  function handleClose(){
+    setAnchorEl(null);
+  };
+
+  function handleDelete(){
+    setAnchorEl(null);
+    dispatch(deleteTask(props.id))
+  }
+  function handleEdit (){
+    setAnchorEl(null);
+    setEditing(true);
+  }
+  const priorityClick = ()=>{
+    if (priority){
+      
+      setPriority(false)
+      dispatch(updateTask({id: props.id, priority}))
+      console.log('false')
+    } else{
+       setPriority(true)
+       dispatch(updateTask({id: props.id, name, priority}))
+       console.log('true')
+    }
+  }
   const [{ handlerId }, drop] = useDrop({
     accept: 'task',
     collect(monitor) {
@@ -86,6 +119,7 @@ export default function TaskItem (props) {
     setEditing(false);
   }
   const opacity = isDragging ? 0 : 1
+  const color = props.priority=== true? 'red' : 'black'
   //created two different views depending on if the user clicks the edit button
   const editingView = (
     <form onSubmit={handleSubmit}>
@@ -110,35 +144,80 @@ export default function TaskItem (props) {
         <div className="task-item">
           <button className="hover-button btn"><MdOutlineDragIndicator/></button>
           <div className="task-area" >
-             <div>
+             
                 {/* <input
                   id={props.id}
                   type="checkbox"
                   defaultChecked={props.completed}
                   onChange={() => props.toggleComplete(props.id)}
                 /> */}
-                <div className="task-top-section">
+                <div className="task-left-section">
                 <label>
                   {props.name}
                 </label>
-                <button
-                  type="button"
-                  className="btn btn__danger"
-                  onClick={() => dispatch(deleteTask(props.id))}
-                >
-                  <FiTrash2/> 
-                </button>
-                </div>
-                <div className="task-bottom-section">
-                  <label>
+                <label>
                     {props.date}
                   </label>
-                  <button type="button" className="btn" onClick={() => setEditing(true)}>
-                    <FiEdit/> 
-                  </button>
                 </div>
-             </div>
-          </div>
+                <div className="task-right-section">
+                  <button className="priority btn" onClick={priorityClick} style={{color}}>
+                  <MdLocalFireDepartment/>
+                  </button>
+                  
+                    <IconButton 
+                    id="basic-button"
+                    aria-controls={open ? 'basic-menu' : undefined}
+                    aria-haspopup="true"
+                    aria-expanded={open ? 'true' : undefined}
+                    onClick={handleClick}
+                    disableRipple= {true}
+                    size='small'
+                    sx={{
+                      color: 'black',
+                      marginLeft: '140px',
+                      padding: '0px',
+                      minWidth: '6px',
+                      margin: '0px'
+                      
+                    }}
+                    
+                  >
+                    <MoreVertIcon fontSize="small"/>
+                  </IconButton>
+                  <Menu
+                    id="basic-menu"
+                    anchorEl={anchorEl}
+                    open={open}
+                    onClose={handleClose}
+                    MenuListProps={{
+                      'aria-labelledby': 'basic-button',
+                    }}
+                    sx={{
+                      border: 'none',
+                      textShadow: 'none'
+                    }}
+                  >
+                    <MenuItem 
+                      onClick={handleEdit}
+                      sx={{
+                        fontFamily: 'Cutive Mono',
+                        fontWeight: '700'
+                      }}
+                      ><FiEdit/>Edit</MenuItem>
+                    <MenuItem 
+                      onClick={handleDelete}
+                      sx={{
+                        fontFamily: 'Cutive Mono',
+                        fontWeight: '700'
+                      }}
+                      > <FiTrash2/> Delete</MenuItem>
+                    
+                  </Menu>
+                  </div>
+                  
+                </div>
+             
+          
         </div>
       )
   

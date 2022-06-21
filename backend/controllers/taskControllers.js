@@ -27,7 +27,8 @@ const addTask = asyncHandler(async(req, res) => {
     user: req.user.id,
     name: req.body.name,
     date: req.body.date,
-    completed: false
+    completed: false,
+    priority: false
 
   })
   res.status(201).json(task)

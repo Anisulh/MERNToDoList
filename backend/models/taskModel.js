@@ -18,8 +18,12 @@ const taskModel = mongoose.Schema({
   completed: {
     type: Boolean,
     default: false,
-    
+  },
+  priority: {
+    type: Boolean,
+    default: false,
   }
+
 }, 
 {
   timestamps: true

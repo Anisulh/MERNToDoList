@@ -49,7 +49,7 @@ const updateTask = async (taskId, taskData, token) => {
   }
 
   const response = await axios.put(API_URL + taskId, taskData, config)
-
+  console.log(taskData)
   return response.data
 }
 

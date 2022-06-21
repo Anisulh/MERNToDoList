@@ -224,27 +224,19 @@ ul{
   list-style-type: none;
 }
 
-.task-top-section button, .task-bottom-section button,.list-top-section button, .menu-button, .hover-button{
+.list-top-section button, .menu-button, .hover-button{
   padding: 1px;
   border: none;
   background-color: #D9D9D9;
   margin-right: -5px;
 }
-.task-top-section {
-  margin-bottom: -7px;
-}
-.task-bottom-section {
-  margin-bottom: 3px;
-}
-.task-bottom-section label{
-  font-size: 14px;
-}
-.task-top-section label, .list-section-area label{
+
+ .list-section-area label{
   font-size: 18px;
   margin-top: 3px;
 }
 
-.task-top-section, .task-bottom-section, .list-section-area {
+ .list-section-area {
   display: flex;
   justify-content: space-between;
   margin-left: 25px;
@@ -265,3 +257,26 @@ ul{
   border: none;
 }
 
+.task-area{
+  display: flex;
+  justify-content: space-around;
+  padding: 5px 0;
+}
+.task-left-section label{
+  display: block;
+  text-align: left;
+  margin-left: 20px;
+}
+.task-right-section{
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+.priority{
+  padding: 0px ;
+  border: none;
+  background-color: #D9D9D9;
+  margin-top: 3px;
+  font-size: large;
+  color: rgb(250, 75, 0);
+}

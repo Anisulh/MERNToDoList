@@ -8,14 +8,24 @@ import TaskItem from '../components/TaskItem'
 import { getLists, listReset } from "../features/lists/listSlice";
 import ListItem from "../components/ListItem";
 import Listform from "../components/Listform";
-import { MdToday, MdLocalFireDepartment, MdOutlineUpcoming }from 'react-icons/md'
+
 
 import update from 'immutability-helper'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import FilterButton from "../components/FilterButton";
 
 
 function List() {
+const FILTER_MAP = {
+  All: () => true,
+  Priority: task => task.priority,
+  Completed: task => task.completed
+};
+
+const FILTER_NAMES = Object.keys(FILTER_MAP);
+
+  const [filter, setFilter] = useState('All');
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const {user} = useSelector((state) => state.auth)
@@ -90,6 +100,7 @@ const renderTask = useCallback((task, index) => {
       name={task.name}
       date={task.date}
       completed={task.completed}
+      priority={task.priority}
       moveTask = {moveTask}
     />
   )
@@ -106,6 +117,14 @@ const renderList = useCallback((list, index) => {
     </ListItem>
 )
 }, [moveList])
+const filterList = FILTER_NAMES.map(name => (
+  <FilterButton
+    key={name}
+    name={name}
+    isPressed={name === filter}
+    setFilter={setFilter}
+  />
+));
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -114,9 +133,10 @@ const renderList = useCallback((list, index) => {
       <div className="list-page-body">
         <div className="sidebar">
           <div className='sortButtons'>
-            <button className="btn"><MdToday/> Today</button>
+            {filterList}
+            {/* <button className="btn"><MdToday/> Today</button>
             <button className="btn"><MdLocalFireDepartment/> Priority</button>
-            <button className="btn"><MdOutlineUpcoming/> Upcoming</button>
+            <button className="btn"><MdOutlineUpcoming/> Upcoming</button> */}
         </div>
         <div className='list-section' >
           <p> Lists</p>
@@ -131,10 +151,10 @@ const renderList = useCallback((list, index) => {
         </div>
         <div className="task-input-area">
           <Form  />
-          {tasks.length > 0 ? (
+          
           <ul>
-            {order.map((task, i) => renderTask(task, i))}
-          </ul>) : (<h3> You do not have any tasks</h3>)}
+            {order.filter(FILTER_MAP[filter]).map((task, i) => renderTask(task, i))}
+          </ul>
         </div>
         
       </div>
