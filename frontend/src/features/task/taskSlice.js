@@ -47,7 +47,7 @@ export const deleteTask = createAsyncThunk('tasks/delete', async (id, thunkAPI) 
 export const updateTask = createAsyncThunk('tasks/update', async (taskData, thunkAPI) => {
   try {
     const token = thunkAPI.getState().auth.user.token
-    return await taskService.updateTask(taskData.id, {priority: taskData.priority, name: taskData.name }, token)
+    return await taskService.updateTask(taskData.id, {priority: taskData.priority, name: taskData.name, completed: taskData.completed }, token)
   } catch (error) {
       const message= (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
       

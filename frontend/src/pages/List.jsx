@@ -3,7 +3,7 @@ import Form from "../components/form";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {getTasks, reset, updateTask} from '../features/task/taskSlice'
+import {getTasks, reset} from '../features/task/taskSlice'
 import TaskItem from '../components/TaskItem'
 import { getLists, listReset } from "../features/lists/listSlice";
 import ListItem from "../components/ListItem";

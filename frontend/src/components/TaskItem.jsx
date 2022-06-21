@@ -4,20 +4,21 @@ import { deleteTask, updateTask } from "../features/task/taskSlice";
 import { useDrag, useDrop } from 'react-dnd'
 import {FiEdit, FiTrash2, FiSave} from "react-icons/fi"
 import {ImCancelCircle} from "react-icons/im"
-import {MdOutlineDragIndicator} from 'react-icons/md'
+import {MdOutlineDragIndicator, MdToday, MdLocalFireDepartment} from 'react-icons/md'
 import { useRef } from 'react'
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import IconButton from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import { MdToday, MdLocalFireDepartment}from 'react-icons/md'
+
 
 
 export default function TaskItem (props) {
 
   const {id, index, moveTask} = props
   const [isEditing, setEditing] = useState(false);
-  const [priority, setPriority]=useState(props.priority)
+  const [priority, setPriority]=useState(false);
+  const [completed, setCompleted] = useState(false)
   const [name, setName] = useState(props.name);
   const dispatch = useDispatch()
   const ref = useRef(null)
@@ -32,24 +33,23 @@ export default function TaskItem (props) {
 
   function handleDelete(){
     setAnchorEl(null);
-    dispatch(deleteTask(props.id))
+    dispatch(deleteTask(id));
   }
   function handleEdit (){
     setAnchorEl(null);
     setEditing(true);
   }
   const priorityClick = ()=>{
-    if (priority){
-      
-      setPriority(false)
-      dispatch(updateTask({id: props.id, priority}))
-      console.log('false')
-    } else{
-       setPriority(true)
-       dispatch(updateTask({id: props.id, name, priority}))
-       console.log('true')
-    }
+       setPriority(prevState => {return !prevState})
+       dispatch(updateTask({id, name, priority}))
+       console.log(priority)
   }
+  const completedClick = ()=>{
+    setCompleted(prevState => {return !prevState})
+    dispatch(updateTask({id, name, completed}))
+    console.log(completed)
+}
+
   const [{ handlerId }, drop] = useDrop({
     accept: 'task',
     collect(monitor) {
@@ -120,6 +120,7 @@ export default function TaskItem (props) {
   }
   const opacity = isDragging ? 0 : 1
   const color = props.priority=== true? 'red' : 'black'
+  const textDecoration = props.completed ? 'line-through':null
   //created two different views depending on if the user clicks the edit button
   const editingView = (
     <form onSubmit={handleSubmit}>
@@ -198,6 +199,13 @@ export default function TaskItem (props) {
                     }}
                   >
                     <MenuItem 
+                      onClick={completedClick}
+                      sx={{
+                        fontFamily: 'Cutive Mono',
+                        fontWeight: '700'
+                      }}
+                      > <MdToday/> Completed</MenuItem>
+                    <MenuItem 
                       onClick={handleEdit}
                       sx={{
                         fontFamily: 'Cutive Mono',
@@ -224,7 +232,7 @@ export default function TaskItem (props) {
   
 return (
       
-        <li className="todo" style={{ opacity }} ref={ref} data-handler-id={handlerId}>
+        <li className="todo" style={{ opacity, textDecoration }} ref={ref} data-handler-id={handlerId}>
           {isEditing ? editingView : regularView}  
         </li>
       
