@@ -3,7 +3,7 @@
 .App{
   margin: 40px;
   font-size: 18px;
-  overflow: hidden;
+
   font-family: 'Cutive Mono', monospace;
 }
 header{
@@ -40,8 +40,9 @@ header .btn{
 .accounts{
   display: flex;
   text-align: center;
-  margin: 30% 5% 5% 0%;
+  margin: 20% 5% 5% 0%;
 }
+
 .btn{
   cursor: pointer;
   margin:  10px 2% 0% 2%;
@@ -62,14 +63,19 @@ header .btn{
 .container{
   display: flex;
   justify-content: space-between;
-  margin: 5% 1%;
+  margin: 1% 1% 1%;
   padding: 3%;
-  height: 65vh;
+  height: 650px;
   background: #FFFFFF;
-  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
 }
 article{
-  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  margin-right: -30px;
+}
+article img {
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
 }
 h1{
   font-size: 36px;
@@ -132,7 +138,7 @@ input{
   width: 600px;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 50px;
+  margin-top: 80px;
 
 }
 input:focus, input:valid{
@@ -147,14 +153,17 @@ input:focus::placeholder {
 }
 .form{
   margin: 0% 5%;
-  padding: 3%;
-  height: 55vh;
+  padding: 2% 3%;
+  height: 710px;
   background: #FFFFFF;
   box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.25);
 }
+.form h1, .form p {
+  font-family: 'Cutive Mono', monospace;
+}
 .form .btn {
   display: block;
-  margin-top: 10%;
+  margin-top: 50px;
   margin-right: auto;
   margin-left: auto;
 }

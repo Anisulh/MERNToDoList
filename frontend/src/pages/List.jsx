@@ -8,8 +8,6 @@ import TaskItem from '../components/TaskItem'
 import { getLists, listReset } from "../features/lists/listSlice";
 import ListItem from "../components/ListItem";
 import Listform from "../components/Listform";
-
-
 import update from 'immutability-helper'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
@@ -54,7 +52,6 @@ const FILTER_NAMES = Object.keys(FILTER_MAP);
 
 
 
-
 useEffect(() => {
   dispatch(getLists());
 
@@ -68,6 +65,7 @@ const [listOrder, setListOrder] = useState(lists)
 useEffect(() =>{
   setOrder(tasks)
   setListOrder(lists)
+  
 }, [tasks, lists ])
 
 
@@ -91,6 +89,8 @@ const moveList = useCallback((dragIndex, hoverIndex) => {
     }),
   )
 }, [])
+
+
 const renderTask = useCallback((task, index) => {
   return (
     <TaskItem
@@ -125,6 +125,7 @@ const filterList = FILTER_NAMES.map(name => (
     setFilter={setFilter}
   />
 ));
+
 
   return (
     <DndProvider backend={HTML5Backend}>

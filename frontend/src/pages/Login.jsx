@@ -49,10 +49,11 @@ const onSubmit = (e) => {
       <>
         <div className="App">
           <Header/>
+          
+        </div>
+        <form onSubmit={onSubmit} className='form'>
           <h1>Login</h1>
           <p> Welcome! Please login to your account</p>
-        </div>
-        <form onSubmit={onSubmit}>
           <input type="email" name="email" id="email" value={email} onChange={onChange} placeholder='something@email.com' required/>
           <input type="text" name="password" id="password" value={password} onChange={onChange} placeholder='Enter a Password'required />
           

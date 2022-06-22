@@ -11,7 +11,6 @@ export default function FilterButton(props) {
     >
       <span className="visually-hidden">{props.name === 'All' ? <MdOutlineUpcoming/>: props.name ==='Priority' ? <MdLocalFireDepartment/> : <MdToday/>} </span>
       <span>{props.name}</span>
-      <span className="visually-hidden"> tasks</span>
     </button>
   );
 }

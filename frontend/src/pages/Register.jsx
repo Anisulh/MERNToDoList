@@ -65,10 +65,10 @@ function Register() {
       <>
         <div className="App">
           <Header/>
-          <h1>Register</h1>
-          <p> Welcome! Please fill in the information below and create your account!</p>
         </div>
         <form onSubmit={onSubmit} className='form'>
+          <h1>Register</h1>
+          <p> Welcome! Please fill in the information below and create your account!</p>
           <div className="form-name">
             <input 
               type="text" 
