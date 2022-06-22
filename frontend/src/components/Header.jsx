@@ -30,9 +30,9 @@ export default function Header () {
           <li>
             <Link to='/lists'> List</Link>
           </li>
-          <li>
+          {/* <li>
             <Link to='/'> About</Link> 
-          </li>
+          </li> */}
           {user? <button className="btn" onClick={onLogout}>Logout</button> : (
           <>
             <li>

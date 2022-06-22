@@ -11,7 +11,7 @@ export default function Hero(){
         <h1>Welcome to TODO,</h1>
         <h2>A simpler way todo</h2>
         <h3>Lets get started:</h3>
-        <h3>Click the + to make a new list!</h3>
+        <h3>Login to make a new list!</h3>
         <section className="accounts">
           <Link to='/register' className="btn">Create an Account </Link>
           <p>or</p>
